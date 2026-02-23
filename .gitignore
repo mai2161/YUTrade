@@ -113,3 +113,5 @@ dmypy.json
 *.backup
 temp/
 tmp/
+.claude
+.gitignore

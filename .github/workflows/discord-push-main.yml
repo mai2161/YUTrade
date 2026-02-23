@@ -37,7 +37,7 @@ jobs:
 
           commits = event.get("commits", []) or []
           if not commits:
-            msg = f"Push to `main` (no commit details)"
+            msg = f"(no commit details)"
           else:
             # Group commit messages by author
             by_author = defaultdict(list)
@@ -69,7 +69,7 @@ jobs:
                   s += "; …"
                 return s[:180]
 
-            lines = [f"Push to `main`", ""]
+            lines = []
             for author, msgs in sorted(by_author.items(), key=lambda x: x[0].lower()):
               lines.append(f"• **{author}** — {one_liner(msgs)}")
               lines.append(f"  🕒 {now}")

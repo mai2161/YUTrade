@@ -1,4 +1,4 @@
-# Assigned to: Raj (Rajendra Brahmbhatt) + Mickey (Michael Byalsky)
+# Assigned to: Raj (Rajendra Brahmbhatt)
 # Phase: 3 (B3.6)
 #
 # TODO: Write tests for messaging endpoints.

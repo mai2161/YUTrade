@@ -1,4 +1,4 @@
-# Assigned to: Daniel Chahine + Mickey (Michael Byalsky)
+# Assigned to: Daniel Chahine
 # Phase: 1 (B1.9)
 #
 # TODO: Write tests for authentication endpoints.

@@ -83,11 +83,9 @@ Responsible for all ORM models, database setup, and schema design.
 | 1 | B1.1 — Project setup, `requirements.txt`, `main.py` | `app/main.py`, `requirements.txt`, `.env.example` |
 | 1 | B1.2 — Config and database connection | `app/config.py`, `app/database.py` |
 | 1 | B1.3 — User and VerificationCode models | `app/models/user.py`, `app/models/verification.py` |
-| 1 | B1.9 — Test fixtures (with Daniel) | `tests/conftest.py`, `tests/test_auth.py` |
+| 1 | B1.9a — Test fixtures | `tests/conftest.py` |
 | 2 | B2.1 — Listing and Image models | `app/models/listing.py`, `app/models/image.py` |
-| 2 | B2.6 — Listing tests (with Lakshan) | `tests/test_listings.py` |
 | 3 | B3.1 — Message model | `app/models/message.py` |
-| 3 | B3.6 — Message tests (with Raj) | `tests/test_messages.py` |
 
 Also: `app/models/__init__.py` (import all models so `create_all()` works).
 
@@ -102,7 +100,7 @@ Responsible for auth endpoints, JWT, password hashing, email verification.
 | 1 | B1.6 — Dependencies | `app/dependencies.py` |
 | 1 | B1.7 — Auth + email services | `app/services/auth_service.py`, `app/services/email_service.py` |
 | 1 | B1.8 — Auth router | `app/routers/auth.py` |
-| 1 | B1.9 — Auth tests (with Mickey) | `tests/conftest.py`, `tests/test_auth.py` |
+| 1 | B1.9b — Auth tests | `tests/test_auth.py` |
 
 #### Lakshan Kandeepan — Listings
 
@@ -114,7 +112,7 @@ Responsible for listing CRUD, image upload handling, search/filter.
 | 2 | B2.3 — Listing service | `app/services/listing_service.py` |
 | 2 | B2.4 — Image upload handling | (within `listing_service.py` and `routers/listings.py`) |
 | 2 | B2.5 — Listings router | `app/routers/listings.py` |
-| 2 | B2.6 — Listing tests (with Mickey) | `tests/test_listings.py` |
+| 2 | B2.6 — Listing tests | `tests/test_listings.py` |
 | 3 | B3.5 — Search/filter on GET /listings | `app/routers/listings.py`, `app/services/listing_service.py` |
 
 #### Raj (Rajendra Brahmbhatt) — Messaging
@@ -127,7 +125,7 @@ Responsible for messaging endpoints, thread logic, CI setup.
 | 3 | B3.2 — Message schemas | `app/schemas/message.py` |
 | 3 | B3.3 — Message service | `app/services/message_service.py` |
 | 3 | B3.4 — Messages router | `app/routers/messages.py` |
-| 3 | B3.6 — Message tests (with Mickey) | `tests/test_messages.py` |
+| 3 | B3.6 — Message tests | `tests/test_messages.py` |
 
 ---
 
@@ -150,8 +148,8 @@ Responsible for messaging endpoints, thread logic, CI setup.
 | 3 | F3.1 — Messages API functions | `src/api/messages.ts` |
 | 3 | F3.2 — Message thread component | `src/components/MessageThread.tsx` |
 | 3 | F3.3 — Messaging UI in listing detail | `src/pages/ListingDetailPage.tsx` |
-| 3 | F3.7 — UI polish (with Harnaindeep) | All pages |
-| 3 | F3.8 — Responsive design (with Harnaindeep) | All pages |
+| 3 | F3.7a — UI polish on own pages | `RegisterPage`, `VerifyPage`, `LoginPage`, `ListingDetailPage`, `CreateListingPage` |
+| 3 | F3.8a — Responsive design on own pages | `RegisterPage`, `VerifyPage`, `LoginPage`, `ListingDetailPage`, `CreateListingPage` |
 
 #### Harnaindeep Kaur — Components and Styling
 
@@ -168,8 +166,8 @@ Responsible for messaging endpoints, thread logic, CI setup.
 | 3 | F3.4 — Messages page | `src/pages/MessagesPage.tsx` |
 | 3 | F3.5 — Search bar component | `src/components/SearchBar.tsx` |
 | 3 | F3.6 — Integrate search into browse page | `src/pages/BrowsePage.tsx` |
-| 3 | F3.7 — UI polish (with Mai) | All pages |
-| 3 | F3.8 — Responsive design (with Mai) | All pages |
+| 3 | F3.7b — UI polish on own pages | `BrowsePage`, `MyListingsPage`, `MessagesPage` |
+| 3 | F3.8b — Responsive design on own pages/components | `BrowsePage`, `MyListingsPage`, `MessagesPage`, `Layout`, `Navbar`, `SearchBar` |
 
 ---
 
@@ -207,12 +205,12 @@ YUTrade/
 
 1. **Read your assigned file** — each file has a detailed TODO comment at the top explaining exactly what to implement, including function signatures, data structures, and behavior.
 2. **Follow the phase order** — Phase 1 tasks must be done before Phase 2, etc. Within a phase, check if your work depends on someone else's (e.g., routers depend on models being done first).
-3. **Dependencies between team members:**
+3. **No merge conflicts** — every file is assigned to exactly one person. You can all work on the same branch simultaneously without conflicts.
+4. **Dependencies between team members:**
    - Mickey's models must be done before Daniel's services (Phase 1), Lakshan's services (Phase 2), and Raj's services (Phase 3)
    - Daniel's auth must be done before any protected endpoint works
    - Frontend API layer (Mai) depends on backend endpoints being functional
-4. **Test locally** — backend devs run `uvicorn app.main:app --reload` and test via `http://localhost:8000/docs`. Frontend devs run `npm start`.
-5. **Create a branch** for your work (e.g., `feature/auth`, `feature/listings`, `feature/messaging`, `feature/frontend-auth`, `feature/frontend-listings`).
+5. **Test locally** — backend devs run `uvicorn app.main:app --reload` and test via `http://localhost:8000/docs`. Frontend devs run `npm start`.
 
 ## API Documentation
 

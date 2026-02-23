@@ -212,8 +212,9 @@ Auth-protected endpoints require `Authorization: Bearer <token>`.
 6. **B1.6** Implement `dependencies.py` (get_db, get_current_user) — *Daniel*
 7. **B1.7** Implement `auth_service.py` + `email_service.py` (with console dev mode) — *Daniel*
 8. **B1.8** Implement `routers/auth.py` (register, verify, login endpoints) — *Daniel*
-9. **B1.9** Write `conftest.py` and `test_auth.py` — *Daniel + Mickey*
-10. **B1.10** Set up GitHub Actions CI — *Raj*
+9. **B1.9a** Write `conftest.py` (test DB fixtures) — *Mickey*
+10. **B1.9b** Write `test_auth.py` — *Daniel*
+11. **B1.10** Set up GitHub Actions CI — *Raj*
 
 **Frontend tasks:**
 1. **F1.1** Scaffold React app with `create-react-app --template typescript` — *Mai*
@@ -238,7 +239,7 @@ Auth-protected endpoints require `Authorization: Bearer <token>`.
 3. **B2.3** Implement `listing_service.py` (create with images, get paginated, get by id, update) — *Lakshan*
 4. **B2.4** Image upload handling (save to `uploads/` with UUID filenames, serve via StaticFiles) — *Lakshan*
 5. **B2.5** Implement `routers/listings.py` — *Lakshan*
-6. **B2.6** Write `test_listings.py` — *Lakshan + Mickey*
+6. **B2.6** Write `test_listings.py` — *Lakshan*
 
 **Frontend tasks:**
 1. **F2.1** Create `src/api/listings.ts` — *Mai*
@@ -261,7 +262,7 @@ Auth-protected endpoints require `Authorization: Bearer <token>`.
 3. **B3.3** Implement `message_service.py` (send message, get thread, get user threads) — *Raj*
 4. **B3.4** Implement `routers/messages.py` — *Raj*
 5. **B3.5** Add search/filter to GET /listings (search, category, min/max price) — *Lakshan*
-6. **B3.6** Write `test_messages.py` — *Raj + Mickey*
+6. **B3.6** Write `test_messages.py` — *Raj*
 
 **Frontend tasks:**
 1. **F3.1** Create `src/api/messages.ts` — *Mai*
@@ -270,8 +271,10 @@ Auth-protected endpoints require `Authorization: Bearer <token>`.
 4. **F3.4** Implement MessagesPage (all threads by listing) — *Harnaindeep*
 5. **F3.5** Implement SearchBar (text + category dropdown + price range) — *Harnaindeep*
 6. **F3.6** Integrate SearchBar into BrowsePage — *Harnaindeep*
-7. **F3.7** UI polish: loading spinners, empty states, error handling — *Mai + Harnaindeep*
-8. **F3.8** Responsive design pass — *Mai + Harnaindeep*
+7. **F3.7a** UI polish on own pages (loading spinners, empty states, error handling) — *Mai* (RegisterPage, VerifyPage, LoginPage, ListingDetailPage, CreateListingPage)
+8. **F3.7b** UI polish on own pages (loading spinners, empty states, error handling) — *Harnaindeep* (BrowsePage, MyListingsPage, MessagesPage)
+9. **F3.8a** Responsive design pass on own pages — *Mai* (RegisterPage, VerifyPage, LoginPage, ListingDetailPage, CreateListingPage)
+10. **F3.8b** Responsive design pass on own pages and components — *Harnaindeep* (BrowsePage, MyListingsPage, MessagesPage, Layout, Navbar, SearchBar)
 
 **Checkpoint:** Full user flow works: register -> verify -> login -> create listing -> browse/search -> message seller -> view conversations.
 

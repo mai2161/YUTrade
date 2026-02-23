@@ -1,4 +1,4 @@
-# Assigned to: Daniel Chahine + Mickey (Michael Byalsky)
+# Assigned to: Mickey (Michael Byalsky)
 # Phase: 1 (B1.9)
 #
 # TODO: Set up pytest fixtures for backend testing.

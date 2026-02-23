@@ -1,4 +1,4 @@
-# Assigned to: Lakshan Kandeepan + Mickey (Michael Byalsky)
+# Assigned to: Lakshan Kandeepan
 # Phase: 2 (B2.6)
 #
 # TODO: Write tests for listing endpoints.

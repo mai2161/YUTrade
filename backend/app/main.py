@@ -18,3 +18,46 @@
 # 6. Add a lifespan or startup event that calls Base.metadata.create_all(bind=engine)
 #    to auto-create tables on first run
 # 7. Add a root endpoint GET "/" returning {"message": "YU Trade API"}
+
+import os
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
+from app.database import Base, engine
+from app.models import User, VerificationCode, Listing, Image, Message  # noqa: F401 — register models
+from app.routers.auth import router as auth_router
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Create database tables on startup."""
+    Base.metadata.create_all(bind=engine)
+    yield
+
+
+app = FastAPI(title="YU Trade API", lifespan=lifespan)
+
+# CORS middleware for React dev server
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Ensure uploads directory exists
+os.makedirs("uploads", exist_ok=True)
+
+# Mount static files for uploaded images
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
+# Include routers
+app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+
+
+@app.get("/")
+def root():
+    return {"message": "YU Trade API"}

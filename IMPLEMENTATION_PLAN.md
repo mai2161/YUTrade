@@ -2,7 +2,7 @@
 
 ## Context
 
-YU Trade is a verified campus marketplace for York University (EECS4314 course project). It allows students and faculty to buy/sell items within a trusted community, restricted to `@my.yorku.ca` and `@yorku.ca` email addresses. The project has 6 team members (4 backend, 2 frontend), both `backend/` and `frontend/` folders are currently empty, and we need to scaffold and implement everything from scratch.
+YU Trade is a verified campus marketplace for York University (EECS4314 course project). It allows students and faculty to buy/sell items within a trusted community, restricted to `@my.yorku.ca` and `@yorku.ca` email addresses. The project has 6 team members (4 backend, 2 frontend). All stub files have been created with TODO instructions — each team member needs to implement their assigned files.
 
 **Team Assignments:**
 - **Backend (4 members):**
@@ -310,26 +310,30 @@ Auth-protected endpoints require `Authorization: Bearer <token>`.
 
 ---
 
-## 6. Scaffolding Plan
+## 6. Scaffolding Status
 
-After approval, we will create:
+All stub files have been created with detailed TODO comments describing the implementation requirements. Each file includes its assigned team member and the phase it belongs to. **No implementation code has been written yet** — every file is a stub with instructions.
+
+What has been scaffolded:
 1. Full backend folder structure with all `__init__.py` files, `requirements.txt`, `.env.example`
 2. Core backend files: `main.py`, `config.py`, `database.py`, `dependencies.py`, `security.py`
-3. All ORM models and Pydantic schemas
-4. Router and service stubs
-5. Test scaffolding with `conftest.py`
-6. Frontend via `create-react-app --template typescript`
-7. Frontend folder structure: api/, context/, hooks/, pages/, components/, styles/, types/
-8. Axios client with JWT interceptor
-9. `.gitignore` at project root
-10. GitHub Actions CI workflow
+3. All ORM models and Pydantic schemas (as TODO stubs)
+4. Router and service stubs with detailed endpoint specifications
+5. Test scaffolding with `conftest.py` and test files with listed test cases
+6. Frontend folder structure: `api/`, `context/`, `hooks/`, `pages/`, `components/`, `styles/`, `types/`
+7. All frontend component, page, and utility stubs with TODO instructions
+
+What still needs to be done manually:
+- Frontend scaffolding with `npx create-react-app frontend --template typescript` (will generate `package.json`, `tsconfig.json`, etc. — then move our stub files into the generated `src/`)
+- `.gitignore` at project root
+- GitHub Actions CI workflow (B1.10, assigned to Raj)
 
 ---
 
 ## 7. Verification
 
-After scaffolding:
+After implementation:
 - `cd backend && pip install -r requirements.txt && uvicorn app.main:app --reload` should start without errors
 - `cd frontend && npm install && npm start` should show the React app
 - `http://localhost:8000/docs` should show the FastAPI OpenAPI docs
-- `pytest backend/tests/` should discover and run (initially pass with no tests or placeholder tests)
+- `pytest backend/tests/` should discover and run all tests

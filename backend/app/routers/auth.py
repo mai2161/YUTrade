@@ -29,3 +29,40 @@
 #   - Check user.is_verified → 403 if not verified
 #   - Create JWT access token with sub=str(user.id) using security.create_access_token()
 #   - Return 200: TokenResponse {access_token, token_type: "bearer", user: UserOut}
+
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
+
+from app.dependencies import get_db
+from app.schemas.auth import RegisterRequest, VerifyRequest, LoginRequest, TokenResponse
+from app.schemas.user import UserOut
+from app.services.auth_service import register_user, verify_user, authenticate_user
+from app.utils.security import create_access_token
+
+router = APIRouter()
+
+
+@router.post("/register", status_code=status.HTTP_201_CREATED)
+def register(request: RegisterRequest, db: Session = Depends(get_db)):
+    """Register a new user and send a verification code."""
+    user = register_user(db, request.email, request.password, request.name)
+    return {"message": "Verification code sent to your email", "user_id": user.id}
+
+
+@router.post("/verify", status_code=status.HTTP_200_OK)
+def verify(request: VerifyRequest, db: Session = Depends(get_db)):
+    """Verify a user's email with the provided 6-digit code."""
+    verify_user(db, request.email, request.code)
+    return {"message": "Email verified successfully"}
+
+
+@router.post("/login", response_model=TokenResponse)
+def login(request: LoginRequest, db: Session = Depends(get_db)):
+    """Authenticate a user and return a JWT access token."""
+    user = authenticate_user(db, request.email, request.password)
+    access_token = create_access_token(data={"sub": str(user.id)})
+    return TokenResponse(
+        access_token=access_token,
+        token_type="bearer",
+        user=UserOut.model_validate(user),
+    )

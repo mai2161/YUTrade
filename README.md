@@ -25,7 +25,7 @@ A verified campus marketplace for York University. Students and faculty can buy 
 
 ```bash
 cd backend
-cp .env.example .env        # Edit .env with your SECRET_KEY
+cp .env.example .env
 python -v venv venv
 source venv/bin/activate
 pip install -r requirements.txt

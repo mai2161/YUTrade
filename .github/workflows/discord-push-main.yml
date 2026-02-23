@@ -1,0 +1,97 @@
+name: Discord notify on push to main
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post push summary to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 - <<'PY'
+          import json, os, datetime, re
+          from collections import defaultdict
+          from urllib import request
+
+          # Load the push event payload
+          with open(os.environ["GITHUB_EVENT_PATH"], "r", encoding="utf-8") as f:
+            event = json.load(f)
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          webhook = os.environ["DISCORD_WEBHOOK_URL"]
+
+          # Toronto time (America/Toronto). This works on ubuntu-latest with zoneinfo.
+          try:
+            from zoneinfo import ZoneInfo
+            tz = ZoneInfo("America/Toronto")
+          except Exception:
+            tz = datetime.timezone.utc
+
+          now = datetime.datetime.now(tz).strftime("%Y-%m-%d %H:%M %Z")
+
+          commits = event.get("commits", []) or []
+          if not commits:
+            msg = f"**{repo}**: Push to `main` (no commit details)\n🕒 {now}"
+          else:
+            # Group commit messages by author
+            by_author = defaultdict(list)
+            for c in commits:
+              author = c.get("author", {}) or {}
+              # Prefer GitHub username if available; otherwise fall back to commit author name
+              name = author.get("username") or author.get("name") or "Unknown"
+              message = (c.get("message") or "").strip().splitlines()[0]
+              by_author[name].append(message)
+
+            def one_liner(messages):
+              # Build a concise summary from commit subjects
+              # Keep it short + readable: "3 commits: fix X; add Y; update Z"
+              uniq = []
+              seen = set()
+              for m in messages:
+                m = re.sub(r"\s+", " ", m).strip()
+                if m and m not in seen:
+                  uniq.append(m)
+                  seen.add(m)
+
+              if len(messages) == 1:
+                s = uniq[0] if uniq else "update"
+                return s[:180]
+              else:
+                parts = uniq[:3]
+                s = f"{len(messages)} commits: " + "; ".join(parts)
+                if len(uniq) > 3:
+                  s += "; …"
+                return s[:180]
+
+            lines = [f"**{repo}**: Push to `main`", f"🕒 {now}", ""]
+            for author, msgs in sorted(by_author.items(), key=lambda x: x[0].lower()):
+              lines.append(f"• **{author}** — {one_liner(msgs)}")
+
+            # Include compare URL when available
+            compare = event.get("compare")
+            if compare:
+              lines.append("")
+              lines.append(f"🔎 Compare: {compare}")
+
+            msg = "\n".join(lines)
+
+          payload = json.dumps({"content": msg}).encode("utf-8")
+          req = request.Request(
+            webhook,
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+          )
+
+          with request.urlopen(req) as resp:
+            # Discord returns 204 No Content on success
+            pass
+
+          print("Posted to Discord.")
+          PY

@@ -1,0 +1,40 @@
+/* Assigned to: Harnaindeep Kaur */
+/* Phase: 1 (F1.9) */
+/*
+ * TODO: Define CSS custom properties for YU Trade branding.
+ *
+ * :root {
+ *   /* YU Brand Colors */
+ *   --yu-red: #E31837;
+ *   --yu-red-dark: #B8132D;        (hover state for red buttons)
+ *   --yu-white: #FFFFFF;
+ *   --yu-dark-grey: #333333;
+ *   --yu-light-grey: #F5F5F5;      (page backgrounds)
+ *   --yu-medium-grey: #CCCCCC;     (borders, dividers)
+ *
+ *   /* Text */
+ *   --text-primary: #333333;
+ *   --text-secondary: #666666;
+ *   --text-light: #FFFFFF;
+ *
+ *   /* Status Colors */
+ *   --status-active: #28A745;
+ *   --status-sold: #FFC107;
+ *   --status-removed: #DC3545;
+ *
+ *   /* Spacing */
+ *   --spacing-xs: 4px;
+ *   --spacing-sm: 8px;
+ *   --spacing-md: 16px;
+ *   --spacing-lg: 24px;
+ *   --spacing-xl: 32px;
+ *
+ *   /* Layout */
+ *   --max-width: 1200px;
+ *   --navbar-height: 64px;
+ *   --border-radius: 8px;
+ *
+ *   /* Fonts */
+ *   --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ * }
+ */

@@ -1,0 +1,37 @@
+/* Assigned to: Harnaindeep Kaur */
+/* Phase: 1 (F1.9) */
+/*
+ * TODO: Global styles for YU Trade.
+ *
+ * 1. Import variables: @import "./variables.css";
+ *
+ * 2. Reset/base styles:
+ *    - *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ *    - body { font-family: var(--font-family); color: var(--text-primary); background: var(--yu-light-grey); }
+ *    - a { color: var(--yu-red); text-decoration: none; }
+ *    - a:hover { text-decoration: underline; }
+ *
+ * 3. Common button styles:
+ *    - .btn { padding, border-radius, cursor pointer, font-size }
+ *    - .btn-primary { background: var(--yu-red); color: white; border: none; }
+ *    - .btn-primary:hover { background: var(--yu-red-dark); }
+ *    - .btn-secondary { background: white; color: var(--yu-dark-grey); border: 1px solid var(--yu-medium-grey); }
+ *
+ * 4. Form styles:
+ *    - .form-group { margin-bottom: var(--spacing-md); }
+ *    - .form-label { display: block; margin-bottom: var(--spacing-xs); font-weight: 600; }
+ *    - .form-input { width: 100%; padding; border: 1px solid var(--yu-medium-grey); border-radius; }
+ *    - .form-input:focus { outline: none; border-color: var(--yu-red); }
+ *    - .form-error { color: var(--status-removed); font-size: 0.875rem; }
+ *
+ * 5. Layout helpers:
+ *    - .container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--spacing-md); }
+ *    - .page-title { font-size: 1.5rem; margin-bottom: var(--spacing-lg); }
+ *
+ * 6. Utility classes:
+ *    - .text-center { text-align: center; }
+ *    - .mt-md { margin-top: var(--spacing-md); }
+ *    - .loading-spinner { /* CSS spinner animation */ }
+ *    - .error-message { color: var(--status-removed); padding; background: light red bg; border-radius; }
+ *    - .success-message { color: var(--status-active); padding; background: light green bg; border-radius; }
+ */

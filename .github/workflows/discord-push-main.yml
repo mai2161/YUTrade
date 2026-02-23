@@ -85,7 +85,10 @@ jobs:
           req = request.Request(
             webhook,
             data=payload,
-            headers={"Content-Type": "application/json"},
+            headers={
+              "Content-Type": "application/json",
+              "User-Agent": "GitHub-Actions-Discord-Notifier",
+            },
             method="POST",
           )
 

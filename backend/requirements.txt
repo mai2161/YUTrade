@@ -1,0 +1,14 @@
+# Assigned to: Mickey (Michael Byalsky)
+# TODO: These are the project dependencies. Install with: pip install -r requirements.txt
+
+fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic[email]
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+python-dotenv
+aiosmtplib
+pytest
+httpx

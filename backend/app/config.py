@@ -15,3 +15,23 @@
 #    - ACCESS_TOKEN_EXPIRE_MINUTES: int (default: 60)
 #    - VERIFICATION_CODE_EXPIRE_MINUTES: int (default: 15)
 # 3. Export a single `settings` instance for use across the app
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+class Settings:
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "dev-secret-key-change-in-production")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./yutrade.db")
+    EMAIL_BACKEND: str = os.getenv("EMAIL_BACKEND", "console")
+    SMTP_HOST: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USER: str = os.getenv("SMTP_USER", "")
+    SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
+    VERIFICATION_CODE_EXPIRE_MINUTES: int = int(os.getenv("VERIFICATION_CODE_EXPIRE_MINUTES", "15"))
+
+
+settings = Settings()

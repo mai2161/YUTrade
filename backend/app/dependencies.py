@@ -17,6 +17,7 @@
 #    - Return the User ORM object
 #    - Usage: current_user: User = Depends(get_current_user)
 
+from typing import Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -52,7 +53,7 @@ def get_current_user(
     if payload is None:
         raise credentials_exception
 
-    user_id: str | None = payload.get("sub")
+    user_id: Optional[str] = payload.get("sub")
     if user_id is None:
         raise credentials_exception
 

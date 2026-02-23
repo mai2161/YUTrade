@@ -26,6 +26,7 @@
 #   - Return None (or raise) on ExpiredSignatureError or JWTError
 
 from datetime import datetime, timedelta
+from typing import Optional
 from passlib.context import CryptContext
 from jose import jwt, JWTError, ExpiredSignatureError
 from app.config import settings
@@ -54,7 +55,7 @@ def create_access_token(data: dict) -> str:
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=ALGORITHM)
 
 
-def decode_access_token(token: str) -> dict | None:
+def decode_access_token(token: str) -> Optional[dict]:
     """Decode and validate a JWT access token. Returns payload dict or None."""
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[ALGORITHM])

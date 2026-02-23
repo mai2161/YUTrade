@@ -41,24 +41,33 @@ from fastapi.testclient import TestClient
 from app.database import Base
 from app.dependencies import get_db
 from app.main import app
-from app.models.verification import VerificationCode
+from app.models import User, VerificationCode, Listing, Image, Message  # noqa: F401 — register all models
+
+
+# Create a single test engine shared across the test session
+TEST_ENGINE = create_engine(
+    "sqlite:///:memory:",
+    connect_args={"check_same_thread": False},
+)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=TEST_ENGINE)
+
+
+@pytest.fixture(autouse=True)
+def setup_database():
+    """Create all tables before each test and drop them after."""
+    Base.metadata.create_all(bind=TEST_ENGINE)
+    yield
+    Base.metadata.drop_all(bind=TEST_ENGINE)
 
 
 @pytest.fixture
 def db_session():
-    """Create an in-memory SQLite database session for testing."""
-    engine = create_engine(
-        "sqlite:///:memory:",
-        connect_args={"check_same_thread": False},
-    )
-    Base.metadata.create_all(bind=engine)
-    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    """Create a fresh database session for each test."""
     session = TestingSessionLocal()
     try:
         yield session
     finally:
         session.close()
-        Base.metadata.drop_all(bind=engine)
 
 
 @pytest.fixture

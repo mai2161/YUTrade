@@ -42,7 +42,7 @@
 #   - POST /auth/login
 #   - Assert 403 status
 
-from app.models.verification import VerificationCode
+from app.models import VerificationCode
 
 
 def test_register_success(client):

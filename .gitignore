@@ -91,6 +91,7 @@ Desktop.ini
 *.log
 logs/
 
+
 # Backend uploads (keep directory structure but ignore uploaded files)
 backend/uploads/*
 !backend/uploads/.gitkeep
@@ -113,5 +114,4 @@ dmypy.json
 *.backup
 temp/
 tmp/
-.claude
-.gitignore
+

@@ -36,6 +36,7 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 from fastapi.testclient import TestClient
 
 from app.database import Base
@@ -48,26 +49,21 @@ from app.models import User, VerificationCode, Listing, Image, Message  # noqa: 
 TEST_ENGINE = create_engine(
     "sqlite:///:memory:",
     connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=TEST_ENGINE)
 
 
-@pytest.fixture(autouse=True)
-def setup_database():
-    """Create all tables before each test and drop them after."""
-    Base.metadata.create_all(bind=TEST_ENGINE)
-    yield
-    Base.metadata.drop_all(bind=TEST_ENGINE)
-
-
 @pytest.fixture
 def db_session():
-    """Create a fresh database session for each test."""
+    """Create all tables and yield a fresh database session, then clean up."""
+    Base.metadata.create_all(bind=TEST_ENGINE)
     session = TestingSessionLocal()
     try:
         yield session
     finally:
         session.close()
+        Base.metadata.drop_all(bind=TEST_ENGINE)
 
 
 @pytest.fixture

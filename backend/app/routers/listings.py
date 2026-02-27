@@ -51,6 +51,6 @@ router.include_router(
     tags=["Messages"],
 )
 
-@router.get("/status", status_code=status.HTTP_200_OK)
-def hello_world():
+@router.get("/health", status_code=status.HTTP_200_OK)
+def listing_health():
     return {"message": "Hello, World! From listings.py"}

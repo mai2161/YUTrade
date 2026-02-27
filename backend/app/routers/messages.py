@@ -36,6 +36,6 @@ from fastapi import APIRouter, Depends, status
 
 router = APIRouter()
 
-@router.get("/status", status_code=status.HTTP_200_OK)
-def hello_world():
+@router.get("/health", status_code=status.HTTP_200_OK)
+def message_health():
     return {"message": "Hello, World! From messages.py"}

@@ -21,17 +21,53 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 class Settings:
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "dev-secret-key-change-in-production")
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./yutrade.db")
-    EMAIL_BACKEND: str = os.getenv("EMAIL_BACKEND", "console")
-    SMTP_HOST: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
-    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
-    SMTP_USER: str = os.getenv("SMTP_USER", "")
-    SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "")
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
-    VERIFICATION_CODE_EXPIRE_MINUTES: int = int(os.getenv("VERIFICATION_CODE_EXPIRE_MINUTES", "15"))
+    def __init__(self) -> None:
+        self.SECRET_KEY: str = os.getenv(
+            "SECRET_KEY",
+            "dev-secret-key-change-in-production",
+        )
+
+        self.DATABASE_URL: str = os.getenv(
+            "DATABASE_URL",
+            "sqlite:///./yutrade.db",
+        )
+
+        self.EMAIL_BACKEND: str = os.getenv(
+            "EMAIL_BACKEND",
+            "console",
+        )
+
+        self.SMTP_HOST: str = os.getenv(
+            "SMTP_HOST",
+            "smtp.gmail.com",
+        )
+
+        self.SMTP_PORT: int = int(
+            os.getenv("SMTP_PORT", "587")
+        )
+
+        self.SMTP_USER: str = os.getenv(
+            "SMTP_USER",
+            "",
+        )
+
+        self.SMTP_PASSWORD: str = os.getenv(
+            "SMTP_PASSWORD",
+            "",
+        )
+
+        self.ACCESS_TOKEN_EXPIRE_MINUTES: int = int(
+            os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
+        )
+
+        self.VERIFICATION_CODE_EXPIRE_MINUTES: int = int(
+            os.getenv("VERIFICATION_CODE_EXPIRE_MINUTES", "15")
+        )
+
+        # Optional: enforce secure secret in production
+        if self.SECRET_KEY == "dev-secret-key-change-in-production":
+            print("⚠️ Warning: Using default SECRET_KEY. Change this in production.")
 
 
 settings = Settings()

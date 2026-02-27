@@ -35,5 +35,5 @@ class User(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     listings = relationship("Listing", back_populates="seller")
-    sent_messages = relationship("Message", foreign_keys="Message.sender_id")
-    received_messages = relationship("Message", foreign_keys="Message.receiver_id")
+    sent_messages = relationship("Message", foreign_keys="Message.sender_id", back_populates="sender", overlaps="sender")
+    received_messages = relationship("Message", foreign_keys="Message.receiver_id", back_populates="receiver", overlaps="receiver")

@@ -61,6 +61,13 @@ def register_user(db: Session, email: str, password: str, name: str) -> User:
             detail="An account with this email already exists",
         )
 
+    # Check password length (bcrypt supports up to 72 bytes)
+    if len(password.encode('utf-8')) > 72:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password cannot be longer than 72 bytes.",
+        )
+
     # Create user
     user = User(
         email=email_lower,

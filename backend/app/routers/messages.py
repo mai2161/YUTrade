@@ -31,3 +31,11 @@
 #       - Order by created_at ascending
 #       - Call message_service.get_messages()
 #   - Return 200: {messages: List[MessageOut]}
+
+from fastapi import APIRouter, Depends, status
+
+router = APIRouter()
+
+@router.get("/status", status_code=status.HTTP_200_OK)
+def hello_world():
+    return {"message": "Hello, World! From messages.py"}

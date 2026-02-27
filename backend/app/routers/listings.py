@@ -39,3 +39,18 @@
 #   - Only the listing's seller can update it → 403 if not owner
 #   - Update only the provided fields
 #   - Return 200: ListingOut
+
+from fastapi import APIRouter, Depends, status
+from app.routers.messages import router as messages_router
+
+router = APIRouter()
+
+router.include_router(
+    messages_router,
+    prefix="/{listing_id}/messages",
+    tags=["Messages"],
+)
+
+@router.get("/status", status_code=status.HTTP_200_OK)
+def hello_world():
+    return {"message": "Hello, World! From listings.py"}

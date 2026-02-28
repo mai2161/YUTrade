@@ -44,7 +44,7 @@ class Settings:
         )
 
         self.SMTP_PORT: int = int(
-            os.getenv("SMTP_PORT", "587")
+            os.getenv("SMTP_PORT", "") or "587"
         )
 
         self.SMTP_USER: str = os.getenv(
@@ -58,11 +58,11 @@ class Settings:
         )
 
         self.ACCESS_TOKEN_EXPIRE_MINUTES: int = int(
-            os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
+            os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "") or "60"
         )
 
         self.VERIFICATION_CODE_EXPIRE_MINUTES: int = int(
-            os.getenv("VERIFICATION_CODE_EXPIRE_MINUTES", "15")
+            os.getenv("VERIFICATION_CODE_EXPIRE_MINUTES", "") or "15"
         )
 
         # Optional: enforce secure secret in production

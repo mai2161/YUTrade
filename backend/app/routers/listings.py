@@ -40,22 +40,6 @@
 #   - Update only the provided fields
 #   - Return 200: ListingOut
 
-<<<<<<< HEAD
-from fastapi import APIRouter, Depends, status
-from app.routers.messages import router as messages_router
-
-router = APIRouter()
-
-router.include_router(
-    messages_router,
-    prefix="/{listing_id}/messages",
-    tags=["Messages"],
-)
-
-@router.get("/health", status_code=status.HTTP_200_OK)
-def listing_health():
-    return {"message": "Hello, World! From listings.py"}
-=======
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
@@ -65,9 +49,16 @@ from app.dependencies import get_db, get_current_user
 from app.models.user import User
 from app.schemas.listing import ListingOut, ListingUpdate, PaginatedListings
 from app.services import listing_service
+from app.routers.messages import router as messages_router
 
 # TODO complete: created router = APIRouter()
 router = APIRouter()
+
+router.include_router(
+    messages_router,
+    prefix="/{listing_id}/messages",
+    tags=["Messages"],
+)
 
 
 # TODO complete:
@@ -176,4 +167,3 @@ def update_listing(
         raise HTTPException(status_code=404, detail="Listing not found")
 
     return listing
->>>>>>> 7a4c664 (WIP listings backend scaffolding and service/router setup)

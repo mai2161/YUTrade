@@ -47,3 +47,64 @@
 #   - total: int
 #   - page: int
 #   - limit: int
+
+from datetime import datetime
+from typing import List, Literal, Optional
+
+from pydantic import BaseModel, Field
+
+
+class ListingCreate(BaseModel):
+    title: str = Field(..., max_length=200)
+    description: Optional[str] = None
+    price: float = Field(..., gt=0)
+    category: Optional[str] = None
+
+
+class ImageOut(BaseModel):
+    id: int
+    file_path: str
+    position: int
+
+    class Config:
+        from_attributes = True
+
+
+class SellerOut(BaseModel):
+    id: int
+    name: str
+    email: str
+
+    class Config:
+        from_attributes = True
+
+
+class ListingOut(BaseModel):
+    id: int
+    seller_id: int
+    seller: SellerOut
+    title: str
+    description: Optional[str]
+    price: float
+    category: Optional[str]
+    status: str
+    images: List[ImageOut]
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class ListingUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    price: Optional[float] = None
+    status: Optional[Literal["active", "sold", "removed"]] = None
+
+
+class PaginatedListings(BaseModel):
+    listings: List[ListingOut]
+    total: int
+    page: int
+    limit: int

@@ -23,3 +23,4 @@
 // updateListing(id: number, data: { title?, description?, price?, status? }): Promise<Listing>
 //   - PATCH /listings/{id} with JSON body
 //   - Return response.data
+export {}

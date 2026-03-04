@@ -28,3 +28,4 @@
 //   - Price in bold, possibly YU red color
 //   - Category as a small badge/tag
 //   - Hover effect (slight shadow increase or scale)
+export {}

@@ -25,3 +25,4 @@
 //   - Price must be a positive number
 //   - Images should be image files (jpg, png, gif, webp)
 //   - Max file size: 5MB per image (client-side check)
+export {}

@@ -32,3 +32,4 @@
 //   6. Call onChange with updated file array whenever files are added/removed
 //
 // Styling: Dashed border upload area, grid of previews below
+export {}

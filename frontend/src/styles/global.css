@@ -31,7 +31,276 @@
  * 6. Utility classes:
  *    - .text-center { text-align: center; }
  *    - .mt-md { margin-top: var(--spacing-md); }
- *    - .loading-spinner { /* CSS spinner animation */ }
- *    - .error-message { color: var(--status-removed); padding; background: light red bg; border-radius; }
+ *    - .loading-spinner { /* CSS spinner animation */ 
+ /* *    - .error-message { color: var(--status-removed); padding; background: light red bg; border-radius; }
  *    - .success-message { color: var(--status-active); padding; background: light green bg; border-radius; }
- */
+ */ 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f0f0;
+  color: #333;
+}
+
+.reg-text{
+    font-size: 12px;
+    color: #333;
+}
+/* ── Auth pages (Login, Register) ── */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 32px 28px;
+  width: 280px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #E31837;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.auth-label {
+  font-size: 12px;
+  color: #333;
+}
+
+.auth-input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+.auth-input:focus {
+  border-color: #E31837;
+}
+
+.auth-error {
+  font-size: 12px;
+  color: #c0392b;
+  background: #fff5f5;
+  border: 1px solid #ffd0d0;
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+/* Buttons */
+
+.btn-red {
+  width: 100%;
+  padding: 8px;
+  background: #E31837;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-red:hover { background: #B8132D; }
+.btn-red:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-outline {
+  width: 100%;
+  padding: 7px;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-outline:hover { border-color: #E31837; color: #E31837; }
+
+.btn-outline {
+  width: 100%;
+  padding: 7px;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ── Verify page ── */
+.verify-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+}
+
+.verify-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 32px 28px;
+  width: 400px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+}
+/* ── Create Listing page ── */
+.listing-card {
+  width: 500px;
+}
+
+.listing-textarea {
+  resize: vertical;
+  min-height: 90px;
+  font-family: inherit;
+}
+
+.listing-select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.listing-file-input {
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+}
+
+.listing-file-count {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+
+.verify-logo {
+  color: #E31837;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.verify-inner {
+  max-width: 480px;
+  margin: 0 auto;
+  padding-top: 32px;
+  text-align: center;
+}
+
+.verify-title {
+  color: #E31837;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.verify-subtitle {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 36px;
+}
+
+.verify-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.verify-code-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+
+.verify-boxes {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.verify-box {
+  width: 48px;
+  height: 52px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  outline: none;
+}
+
+.verify-box:focus {
+  border-color: #E31837;
+}
+
+.verify-countdown {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Image Upload component ── */
+.image-upload { display: flex; flex-direction: column; gap: 8px; }
+
+.upload-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #888;
+}
+.upload-area:hover { border-color: #E31837; color: #E31837; }
+.upload-area input { display: none; }
+
+.image-previews { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.image-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+.image-preview button {
+  position: absolute; top: -6px; right: -6px;
+  background: #E31837; color: #fff;
+  border: none; border-radius: 50%;
+  width: 18px; height: 18px;
+  font-size: 12px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.image-preview {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}

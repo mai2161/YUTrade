@@ -24,3 +24,60 @@
 //   - AuthContext
 //   - AuthProvider
 //   - useAuth hook (see hooks/useAuth.ts)
+import React, { createContext, useState, useEffect, ReactNode } from "react"
+import { User } from "../types"
+
+interface AuthContextType {
+    user: User | null
+    token: string | null
+    isAuthenticated: boolean
+    login: (token: string, user: User) => void
+    logout: () => void
+    loading: boolean
+}
+export const AuthContext = createContext<AuthContextType>({
+    user: null,
+    token: null,
+    isAuthenticated: false,
+    login: () => {},
+    logout: () => {},
+    loading: true,
+})
+interface AuthProviderProps {
+    children: ReactNode
+}
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    const [user, setUser] = useState<User | null>(null) 
+    const [token, setToken] = useState<string | null>(null)
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+    const storedToken = localStorage.getItem("access_token")
+    if (storedToken) {
+      // TODO: replace with real token decode or /auth/me API call
+      setUser({
+        id: 0,
+        email: "",
+        name: "",
+        is_verified: false,
+        created_at: "",
+      })
+      setToken(storedToken)
+    }
+    setLoading(false)
+  }, [])
+    const login = (token: string, user: User) => {
+        localStorage.setItem("access_token", token)
+        setUser(user)
+        setToken(token)
+    }
+    const logout = () => {
+        localStorage.removeItem("access_token")
+        setUser(null)
+        setToken(null)
+    }
+    return (
+        <AuthContext.Provider value={{ user, token, isAuthenticated: !!user, login, logout, loading }}>
+            {children}
+        </AuthContext.Provider>
+    )
+}

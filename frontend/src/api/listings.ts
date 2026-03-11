@@ -35,11 +35,7 @@ export const getListing = (id: number) => {
 }
 
 export const createListing = (formData: FormData) => {
-    return client.post("/listings", formData, {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        }
-    }).then((response) => response.data)
+    return client.post("/listings", formData).then((response) => response.data)
 }
 
 export const updateListing = (id: number, data: { title?: string; description?: string; price?: number; status?: string }) => {

@@ -7,3 +7,14 @@
 // 2. Import App component from "./App"
 // 3. Import global styles from "./styles/global.css"
 // 4. Render <App /> into the root DOM element using ReactDOM.createRoot
+
+import React from "react"
+import ReactDOM from "react-dom/client"
+import App from "./App"
+import "./styles/global.css"
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
+root.render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
+)

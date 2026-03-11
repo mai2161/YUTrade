@@ -25,3 +25,4 @@
 //   - loading: boolean
 //   - error: string | null
 //   - searchParams: { search?, category?, min_price?, max_price? } (Phase 3)
+export {}

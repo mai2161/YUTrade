@@ -13,3 +13,4 @@
 // getMessages(listingId: number): Promise<{ messages: Message[] }>
 //   - GET /listings/{listingId}/messages
 //   - Return response.data
+export {}

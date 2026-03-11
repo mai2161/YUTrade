@@ -21,3 +21,4 @@
 //   - Use flexbox column layout so footer stays at bottom
 //   - main-content should have max-width (e.g. 1200px) and auto margins for centering
 //   - Padding on main content area
+export {}

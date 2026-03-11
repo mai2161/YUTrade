@@ -23,3 +23,25 @@
 // updateListing(id: number, data: { title?, description?, price?, status? }): Promise<Listing>
 //   - PATCH /listings/{id} with JSON body
 //   - Return response.data
+
+import client from "./client"
+
+export const getListings = (params: { search?: string; category?: string; status?: string; page?: number; limit?: number }) => {
+    return client.get("/listings", { params }).then((response) => response.data)
+}
+
+export const getListing = (id: number) => {
+    return client.get(`/listings/${id}`).then((response) => response.data)
+}
+
+export const createListing = (formData: FormData) => {
+    return client.post("/listings", formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    }).then((response) => response.data)
+}
+
+export const updateListing = (id: number, data: { title?: string; description?: string; price?: number; status?: string }) => {
+    return client.patch(`/listings/${id}`, data).then((response) => response.data)
+}

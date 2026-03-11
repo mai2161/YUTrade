@@ -32,3 +32,4 @@
 //   - Text/links: white (on red bg) or dark (on white bg)
 //   - Horizontal layout, logo left, links right
 //   - Responsive: hamburger menu on mobile (optional stretch goal)
+export {}

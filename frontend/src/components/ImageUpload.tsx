@@ -67,9 +67,13 @@ export default function ImageUpload({ images, onChange }: ImageUploadProps) {
         onChange(next)
     }       
 
+    const [previewUrls, setPreviewUrls] = React.useState<string[]>([])
+
     useEffect(() => {
+        const urls = images.map((file) => URL.createObjectURL(file))
+        setPreviewUrls(urls)
         return () => {
-            images.forEach((file) => URL.revokeObjectURL(file.name))
+            urls.forEach((url) => URL.revokeObjectURL(url))
         }
     }, [images])
 
@@ -82,7 +86,7 @@ export default function ImageUpload({ images, onChange }: ImageUploadProps) {
             <div className="image-previews">
                 {images.map((file, index) => (
                     <div className="image-preview" key={index}>
-                        <img src={URL.createObjectURL(file)} alt={`Preview ${index}`} />
+                        <img src={previewUrls[index]} alt={`Preview ${index}`} />
                         <button onClick={() => removeImage(index)}>&times;</button>
                     </div>
                 ))}

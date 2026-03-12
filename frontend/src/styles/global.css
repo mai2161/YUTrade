@@ -270,6 +270,368 @@ body {
   cursor: not-allowed;
 }
 
+/* ── YUTrade brand logo in auth cards ── */
+.yu-logo {
+  color: #E31837;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* ── App Screen Layout (mobile-style pages) ── */
+.app-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.app-header {
+  background: #E31837;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  flex-shrink: 0;
+}
+
+.app-header-title {
+  font-size: 17px;
+  font-weight: 700;
+  flex: 1;
+  text-align: center;
+}
+
+.app-header-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.app-content {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+}
+
+/* ── Listing Detail Layout ── */
+.listing-detail-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+/* ── Image Carousel ── */
+.carousel-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carousel-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f5f5f5;
+  border: 1.5px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-img-placeholder {
+  color: #ccc;
+  font-size: 40px;
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 5px;
+  margin-top: 7px;
+}
+
+.carousel-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ccc;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.carousel-dot.active {
+  background: #E31837;
+}
+
+/* ── Listing Detail fields ── */
+.detail-field-group {
+  margin-bottom: 7px;
+}
+
+.detail-label {
+  font-size: 10px;
+  color: #888;
+  margin-bottom: 2px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.detail-value {
+  font-size: 12px;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 7px;
+  background: #fff;
+  width: 100%;
+  display: block;
+}
+
+.detail-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.detail-desc {
+  font-size: 12px;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px 7px;
+  min-height: 56px;
+  width: 100%;
+  resize: none;
+  font-family: inherit;
+  margin-bottom: 8px;
+  background: #fafafa;
+}
+
+/* ── Star Rating ── */
+.star-row {
+  display: flex;
+  gap: 1px;
+  align-items: center;
+}
+
+.star-icon {
+  color: #FFB800;
+  font-size: 14px;
+}
+
+.star-icon-half {
+  color: #FFB800;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.star-icon-empty {
+  color: #ddd;
+  font-size: 14px;
+}
+
+/* ── Posted By Section ── */
+.posted-by-section {
+  border-top: 1px solid #efefef;
+  padding-top: 12px;
+}
+
+.posted-by-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+/* ── Small red button (pill) ── */
+.btn-red-sm {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  background: #E31837;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.btn-red-sm:hover { background: #B8132D; }
+
+.timestamp-text {
+  text-align: right;
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 10px;
+}
+
+/* ── My Listings Table ── */
+.listings-table-wrap {
+  overflow-x: auto;
+}
+
+.listings-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.listings-table th {
+  text-align: left;
+  font-size: 11px;
+  color: #999;
+  padding: 7px 5px;
+  font-weight: 600;
+  border-bottom: 1.5px solid #eee;
+}
+
+.listings-table td {
+  padding: 8px 5px;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.listing-thumb {
+  width: 40px;
+  height: 40px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.listing-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-pill-active { background: #222; color: #fff; }
+.status-pill-sold   { background: #eee; color: #777; }
+.status-pill-inactive { background: #eee; color: #777; }
+
+.btn-table-action {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  background: #E31837;
+  color: #fff;
+  margin-right: 4px;
+}
+
+.btn-table-action:hover { background: #B8132D; }
+
+/* ── Seller Profile ── */
+.seller-profile-top {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 14px;
+}
+
+.seller-avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #bbb;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.seller-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.seller-name-input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 13px;
+  width: 100%;
+  background: #fafafa;
+  color: #333;
+  outline: none;
+}
+
+.seller-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #555;
+  font-weight: 600;
+}
+
+.seller-joined {
+  font-size: 12px;
+  color: #555;
+  font-weight: 600;
+}
+
+.all-listings-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
 /* ── Image Upload component ── */
 .image-upload { display: flex; flex-direction: column; gap: 8px; }
 

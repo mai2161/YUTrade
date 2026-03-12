@@ -68,6 +68,7 @@ const RegisterPage: React.FC = () => {
      return (
     <div className="auth-page">
       <div className="auth-card">
+        <span className="yu-logo">YUTrade</span>
         <h1 className="auth-title">Create Account</h1>
 
         <form className="auth-form" onSubmit={handleSubmit}>

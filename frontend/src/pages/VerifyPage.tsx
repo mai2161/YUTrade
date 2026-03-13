@@ -21,7 +21,7 @@ import { useState, useEffect, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { verify } from "../api/auth"
 
-const CODE_LENGTH = 6
+const CODE_LENGTH = 5
 const RESEND_SECONDS = 60
 
 export default function VerifyPage() {
@@ -91,7 +91,11 @@ export default function VerifyPage() {
   return (
     <div className="verify-page">
       <div className="verify-card">
+        <span className="yu-logo">YUTrade</span>
         <h1 className="auth-title">Verify Email</h1>
+        <p style={{ fontSize: 12, color: '#666', textAlign: 'center', marginBottom: 8 }}>
+          We've sent a 5-digit verification code to your YorkU email.
+        </p>
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="auth-field">
@@ -121,7 +125,7 @@ export default function VerifyPage() {
 
           <button
             type="button"
-            className="btn-outline"
+            className="btn-red"
             onClick={handleResend}
             disabled={countdown > 0}
           >

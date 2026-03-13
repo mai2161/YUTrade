@@ -36,19 +36,24 @@ def send_verification_email(email: str, code: str) -> None:
         msg["From"] = settings.SMTP_USER
         msg["To"] = email
         msg.set_content(
-            f"Your verification code is: {code}\nThis code expires in 15 minutes."
+            f"Your YU Trade verification code is: {code}\n\nThis code expires in 15 minutes.\n\nIf you did not register for YU Trade, you can ignore this email."
         )
 
-        asyncio.run(
-            aiosmtplib.send(
-                msg,
-                hostname=settings.SMTP_HOST,
-                port=settings.SMTP_PORT,
-                username=settings.SMTP_USER,
-                password=settings.SMTP_PASSWORD,
-                start_tls=True,
+        try:
+            asyncio.run(
+                aiosmtplib.send(
+                    msg,
+                    hostname=settings.SMTP_HOST,
+                    port=settings.SMTP_PORT,
+                    username=settings.SMTP_USER,
+                    password=settings.SMTP_PASSWORD,
+                    start_tls=True,
+                )
             )
-        )
+            print(f"[SMTP] Verification email sent to {email}")
+        except Exception as e:
+            print(f"[SMTP ERROR] Failed to send email to {email}: {e}")
+            print(f"[FALLBACK] Verification code for {email}: {code}")
     else:
         # Fallback — treat unknown backends as console
         print(f"[DEV] Verification code for {email}: {code}")

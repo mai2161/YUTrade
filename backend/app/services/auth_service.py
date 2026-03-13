@@ -79,6 +79,9 @@ def register_user(db: Session, email: str, password: str, name: str) -> User:
     db.commit()
     db.refresh(user)
 
+    # Delete any old verification codes for this user before creating a new one
+    db.query(VerificationCode).filter(VerificationCode.user_id == user.id).delete()
+
     # Generate and save verification code
     code = str(random.randint(100000, 999999))
     verification = VerificationCode(
@@ -93,6 +96,29 @@ def register_user(db: Session, email: str, password: str, name: str) -> User:
     send_verification_email(email_lower, code)
 
     return user
+
+
+def resend_verification_code(db: Session, email: str) -> None:
+    """Delete old codes and issue a fresh verification code for an unverified user."""
+    user = db.query(User).filter(User.email == email.lower()).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    if user.is_verified:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email is already verified")
+
+    # Delete old codes
+    db.query(VerificationCode).filter(VerificationCode.user_id == user.id).delete()
+
+    code = str(random.randint(100000, 999999))
+    verification = VerificationCode(
+        user_id=user.id,
+        code=code,
+        expires_at=datetime.utcnow() + timedelta(minutes=settings.VERIFICATION_CODE_EXPIRE_MINUTES),
+    )
+    db.add(verification)
+    db.commit()
+
+    send_verification_email(email.lower(), code)
 
 
 def verify_user(db: Session, email: str, code: str) -> bool:

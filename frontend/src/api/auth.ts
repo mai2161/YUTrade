@@ -32,3 +32,7 @@ export const verify = (data: VerifyRequest) => {
 export const login = (data: LoginRequest) => {
     return client.post("/auth/login", data).then((response) => response.data)
 }
+
+export const resendVerification = (email: string) => {
+    return client.post(`/auth/resend-verification?email=${encodeURIComponent(email)}`).then((response) => response.data)
+}

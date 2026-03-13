@@ -36,7 +36,7 @@ from sqlalchemy.orm import Session
 from app.dependencies import get_db
 from app.schemas.auth import RegisterRequest, VerifyRequest, LoginRequest, TokenResponse
 from app.schemas.user import UserOut
-from app.services.auth_service import register_user, verify_user, authenticate_user
+from app.services.auth_service import register_user, verify_user, authenticate_user, resend_verification_code
 from app.utils.security import create_access_token
 
 router = APIRouter()
@@ -54,6 +54,13 @@ def verify(request: VerifyRequest, db: Session = Depends(get_db)):
     """Verify a user's email with the provided 6-digit code."""
     verify_user(db, request.email, request.code)
     return {"message": "Email verified successfully"}
+
+
+@router.post("/resend-verification", status_code=status.HTTP_200_OK)
+def resend_verification(email: str, db: Session = Depends(get_db)):
+    """Resend a verification code to an unverified user."""
+    resend_verification_code(db, email)
+    return {"message": "Verification code resent"}
 
 
 @router.post("/login", response_model=TokenResponse)

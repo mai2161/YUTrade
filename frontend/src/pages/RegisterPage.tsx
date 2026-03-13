@@ -38,11 +38,20 @@ const RegisterPage: React.FC = () => {
         const domain = email.split("@")[1]
         return domain === "my.yorku.ca" || domain === "yorku.ca"
     }
+    const validatePassword = (pwd: string): string => {
+        if (pwd.length < 8) return "Password must be at least 8 characters"
+        return ""
+    }
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setError("")
         if (!validateEmail(email)) {
-            setError("Must use a YorkU email")
+            setError("Must use a YorkU email (@my.yorku.ca or @yorku.ca)")
+            return
+        }
+        const pwdError = validatePassword(password)
+        if (pwdError) {
+            setError(pwdError)
             return
         }
         if (password !== confirmPassword) {

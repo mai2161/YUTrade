@@ -58,7 +58,7 @@ export default function LoginPage() {
     <h1 className="auth-title">YUTrade</h1>
     <form className="auth-form" onSubmit={handleSubmit}>
       <div className="auth-field">
-        <label className="auth-label">Username</label>
+        <label className="auth-label">Email</label>
         <input className="auth-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)}
   required />
       </div>

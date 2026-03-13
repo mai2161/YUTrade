@@ -19,7 +19,7 @@
 // Styling: Simple centered form with YU branding
 import { useState, useEffect, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { verify } from "../api/auth"
+import { verify, resendVerification } from "../api/auth"
 
 const CODE_LENGTH = 5
 const RESEND_SECONDS = 60
@@ -80,9 +80,14 @@ export default function VerifyPage() {
     }
   }
 
-  const handleResend = () => {
-    // TODO: call resend API when available
-    setCountdown(RESEND_SECONDS)
+  const handleResend = async () => {
+    try {
+      await resendVerification(email)
+      setCountdown(RESEND_SECONDS)
+      setDigits(Array(CODE_LENGTH).fill(""))
+    } catch {
+      setError("Failed to resend code. Please try again.")
+    }
   }
 
   const fmt = (s: number) =>

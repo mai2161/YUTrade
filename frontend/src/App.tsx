@@ -11,13 +11,14 @@ import CreateListingPage from "./pages/CreateListingPage"
 import ListingDetailPage from "./pages/ListingDetailPage"
 import MyListingsPage from "./pages/MyListingsPage"
 import SellerProfilePage from "./pages/SellerProfilePage"
+import BrowsePage from "./pages/BrowsePage"
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<BrowsePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/verify" element={<VerifyPage />} />

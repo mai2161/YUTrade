@@ -666,3 +666,64 @@ body {
   width: 56px;
   height: 56px;
 }
+
+/* ── Browse Page ── */
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.listing-card {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transition: box-shadow 0.15s;
+}
+
+.listing-card:hover {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.14);
+}
+
+.listing-card-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.listing-card-body {
+  padding: 8px 10px;
+}
+
+.listing-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.listing-card-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #E31837;
+  margin-bottom: 2px;
+}
+
+.listing-card-category {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 2px;
+}
+
+.listing-card-seller {
+  font-size: 11px;
+  color: #aaa;
+}

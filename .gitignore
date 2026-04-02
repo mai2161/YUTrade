@@ -108,6 +108,10 @@ dmypy.json
 # TypeScript
 *.tsbuildinfo
 
+# Claude
+CLAUDE.md
+.claude/
+
 # Temporary files
 *.tmp
 *.bak

@@ -1,0 +1,426 @@
+%% YUTrade Backend — UML Class Diagram
+%% Generated 2026-03-31
+
+classDiagram
+    direction TB
+
+    %% ════════════════════════════════════════
+    %% ORM MODELS (SQLAlchemy)
+    %% ════════════════════════════════════════
+
+    class User {
+        +int id  &#171;PK&#187;
+        +str email  &#171;unique&#187;
+        +str password_hash
+        +str name
+        +bool is_verified
+        +datetime created_at
+    }
+
+    class Listing {
+        +int id  &#171;PK&#187;
+        +int seller_id  &#171;FK&#187;
+        +str title
+        +str description
+        +float price
+        +str category
+        +str status
+        +datetime created_at
+        +datetime updated_at
+    }
+
+    class Image {
+        +int id  &#171;PK&#187;
+        +int listing_id  &#171;FK&#187;
+        +str file_path
+        +int position
+    }
+
+    class Message {
+        +int id  &#171;PK&#187;
+        +int listing_id  &#171;FK&#187;
+        +int sender_id  &#171;FK&#187;
+        +int receiver_id  &#171;FK&#187;
+        +str content
+        +bool is_read
+        +datetime created_at
+    }
+
+    class Rating {
+        +int id  &#171;PK&#187;
+        +int listing_id  &#171;FK&#187;
+        +int seller_id  &#171;FK&#187;
+        +int rater_id  &#171;FK&#187;
+        +int score
+        +str comment
+        +datetime created_at
+    }
+
+    class VerificationCode {
+        +int id  &#171;PK&#187;
+        +int user_id  &#171;FK&#187;
+        +str code
+        +datetime expires_at
+        +bool used
+    }
+
+    class PasswordResetCode {
+        +int id  &#171;PK&#187;
+        +int user_id  &#171;FK&#187;
+        +str code
+        +datetime expires_at
+        +bool used
+    }
+
+    %% Model Relationships
+    User "1" --> "*" Listing : seller
+    User "1" --> "*" Message : sent_messages
+    User "1" --> "*" Message : received_messages
+    User "1" --> "*" Rating : ratings_received
+    User "1" --> "*" Rating : ratings_given
+    User "1" --> "*" VerificationCode
+    User "1" --> "*" PasswordResetCode
+    Listing "1" --> "*" Image : images  &#171;cascade delete&#187;
+    Listing "1" --> "*" Message : messages
+    Listing "1" --> "*" Rating : ratings  &#171;cascade delete&#187;
+
+    %% ════════════════════════════════════════
+    %% PYDANTIC SCHEMAS
+    %% ════════════════════════════════════════
+
+    class RegisterRequest {
+        +EmailStr email
+        +str password
+        +str name
+        +validate_york_email()
+        +validate_password_length()
+        +validate_name()
+    }
+
+    class LoginRequest {
+        +EmailStr email
+        +str password
+    }
+
+    class TokenResponse {
+        +str access_token
+        +str token_type
+        +UserOut user
+    }
+
+    class ForgotPasswordRequest {
+        +EmailStr email
+    }
+
+    class ResetPasswordRequest {
+        +EmailStr email
+        +str code
+        +str new_password
+        +validate_code_length()
+        +validate_password_length()
+    }
+
+    class UserOut {
+        +int id
+        +str email
+        +str name
+        +bool is_verified
+        +datetime created_at
+    }
+
+    class UpdateProfileRequest {
+        +str name
+    }
+
+    class ChangePasswordRequest {
+        +str current_password
+        +str new_password
+    }
+
+    class DeleteAccountRequest {
+        +str password
+    }
+
+    class ListingCreate {
+        +str title
+        +str description
+        +float price
+        +str category
+    }
+
+    class ListingUpdate {
+        +str title
+        +str description
+        +float price
+        +str category
+        +str status
+    }
+
+    class ListingOut {
+        +int id
+        +int seller_id
+        +SellerOutSchema seller
+        +str title
+        +str description
+        +float price
+        +str category
+        +str status
+        +List~ImageOut~ images
+        +datetime created_at
+        +datetime updated_at
+    }
+
+    class ImageOut {
+        +int id
+        +str file_path
+        +int position
+    }
+
+    class SellerOutSchema {
+        +int id
+        +str name
+        +str email
+        +datetime created_at
+    }
+
+    class PaginatedListings {
+        +List~ListingOut~ listings
+        +int total
+        +int page
+        +int limit
+    }
+
+    class MessageCreate {
+        +str content
+    }
+
+    class SenderOut {
+        +int id
+        +str name
+    }
+
+    class MessageOut {
+        +int id
+        +int listing_id
+        +int sender_id
+        +int receiver_id
+        +SenderOut sender
+        +str content
+        +bool is_read
+        +datetime created_at
+    }
+
+    class RatingCreate {
+        +int score
+        +str comment
+    }
+
+    class RatingUpdate {
+        +int score
+        +str comment
+    }
+
+    class RaterOut {
+        +int id
+        +str name
+    }
+
+    class RatingSellerOut {
+        +int id
+        +str name
+        +datetime created_at
+    }
+
+    class RatingOut {
+        +int id
+        +int listing_id
+        +int seller_id
+        +int rater_id
+        +RaterOut rater
+        +int score
+        +str comment
+        +datetime created_at
+    }
+
+    class SellerRatingsOut {
+        +List~RatingOut~ ratings
+        +float average_score
+        +int total_count
+        +RatingSellerOut seller
+    }
+
+    class MyRatingOut {
+        +RatingOut rating
+        +bool can_rate
+    }
+
+    %% Schema composition
+    TokenResponse --> UserOut
+    ListingOut --> SellerOutSchema
+    ListingOut --> ImageOut
+    PaginatedListings --> ListingOut
+    MessageOut --> SenderOut
+    RatingOut --> RaterOut
+    SellerRatingsOut --> RatingOut
+    SellerRatingsOut --> RatingSellerOut
+    MyRatingOut --> RatingOut
+
+    %% ════════════════════════════════════════
+    %% SERVICES (Business Logic)
+    %% ════════════════════════════════════════
+
+    class AuthService {
+        +purge_expired_codes(db) void
+        +register_user(db, email, password, name) User
+        +authenticate_user(db, email, password) User
+        +request_password_reset(db, email) void
+        +reset_password(db, email, code, new_password) void
+        +update_profile(db, user_id, name) User
+        +change_password(db, user_id, current_pw, new_pw) void
+        +delete_account(db, user_id, password) void
+    }
+
+    class EmailService {
+        +send_verification_email(email, code) void
+        +send_password_reset_email(email, code) void
+    }
+
+    class ListingService {
+        +create_listing(db, seller_id, title, desc, price, cat, images) Listing
+        +get_listings(db, search, category, status, ...) tuple
+        +get_listing_by_id(db, listing_id) Listing
+        +update_listing(db, listing_id, seller_id, data, images) Listing
+        +delete_listing(db, listing_id, seller_id) bool
+    }
+
+    class MessageService {
+        +send_message(db, listing_id, sender_id, content) Message
+        +get_messages(db, listing_id, user_id) list
+        +mark_messages_read(db, listing_id, user_id) int
+        +get_user_threads(db, user_id) list
+    }
+
+    class RatingService {
+        +create_rating(db, listing_id, rater_id, score, comment) Rating
+        +update_rating(db, listing_id, rater_id, score, comment) Rating
+        +delete_rating(db, listing_id, rater_id) void
+        +get_my_rating_for_listing(db, listing_id, rater_id) MyRatingOut
+        +get_seller_ratings(db, seller_id) SellerRatingsOut
+    }
+
+    %% Service dependencies
+    AuthService ..> User : reads/writes
+    AuthService ..> PasswordResetCode : reads/writes
+    AuthService ..> EmailService : sends email
+    ListingService ..> Listing : reads/writes
+    ListingService ..> Image : reads/writes
+    MessageService ..> Message : reads/writes
+    MessageService ..> Listing : validates
+    RatingService ..> Rating : reads/writes
+    RatingService ..> Listing : validates
+    RatingService ..> Message : checks eligibility
+
+    %% ════════════════════════════════════════
+    %% ROUTERS (HTTP Layer)
+    %% ════════════════════════════════════════
+
+    class AuthRouter {
+        +POST /register
+        +POST /login
+        +POST /forgot-password
+        +POST /reset-password
+        +GET /me
+        +PATCH /me
+        +POST /change-password
+        +POST /delete-account
+    }
+
+    class ListingsRouter {
+        +GET /
+        +POST /
+        +GET /listing_id
+        +PATCH /listing_id
+        +DELETE /listing_id
+    }
+
+    class MessagesRouter {
+        +POST /listing_id/messages
+        +GET /listing_id/messages
+        +PUT /listing_id/messages/read
+    }
+
+    class ThreadsRouter {
+        +GET /threads
+    }
+
+    class RatingsRouter {
+        +GET /users/user_id/ratings
+        +GET /listings/listing_id/rating/me
+        +POST /listings/listing_id/rating
+        +PATCH /listings/listing_id/rating
+        +DELETE /listings/listing_id/rating
+    }
+
+    %% Router → Service
+    AuthRouter ..> AuthService : delegates
+    ListingsRouter ..> ListingService : delegates
+    MessagesRouter ..> MessageService : delegates
+    ThreadsRouter ..> MessageService : delegates
+    RatingsRouter ..> RatingService : delegates
+
+    %% ════════════════════════════════════════
+    %% INFRASTRUCTURE
+    %% ════════════════════════════════════════
+
+    class Settings {
+        +str SECRET_KEY
+        +str DATABASE_URL
+        +str EMAIL_BACKEND
+        +str SMTP_HOST
+        +int SMTP_PORT
+        +str SMTP_USER
+        +str SMTP_PASSWORD
+        +int ACCESS_TOKEN_EXPIRE_MINUTES
+        +int VERIFICATION_CODE_EXPIRE_MINUTES
+        +list ALLOWED_ORIGINS
+        +str UPLOAD_DIR
+        +str RESEND_API_KEY
+    }
+
+    class Security {
+        +hash_password(password) str
+        +verify_password(plain, hashed) bool
+        +create_access_token(data) str
+        +decode_access_token(token) dict
+    }
+
+    class Database {
+        +engine
+        +SessionLocal
+        +Base
+    }
+
+    class Dependencies {
+        +get_db() Session
+        +get_current_user(token, db) User
+    }
+
+    class FastAPIApp {
+        +title: YU Trade API
+        +lifespan()
+        +CORS middleware
+        +static /uploads mount
+    }
+
+    %% Infrastructure wiring
+    FastAPIApp --> AuthRouter : includes /auth
+    FastAPIApp --> ListingsRouter : includes /listings
+    FastAPIApp --> ThreadsRouter : includes /messages
+    FastAPIApp --> RatingsRouter : includes
+    ListingsRouter --> MessagesRouter : nested
+    Dependencies ..> Security : decode JWT
+    Dependencies ..> Database : get session
+    AuthService ..> Security : hash/verify
+    EmailService ..> Settings : SMTP config
+    Database ..> Settings : DATABASE_URL
+    FastAPIApp ..> Settings : CORS origins

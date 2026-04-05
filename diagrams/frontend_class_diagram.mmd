@@ -1,0 +1,446 @@
+%% YUTrade Frontend — UML Class Diagram
+%% Generated 2026-03-31
+
+classDiagram
+    direction TB
+
+    %% ════════════════════════════════════════
+    %% TYPE INTERFACES
+    %% ════════════════════════════════════════
+
+    class User {
+        +number id
+        +string email
+        +string name
+        +boolean is_verified
+        +string created_at
+    }
+
+    class TokenResponse {
+        +string access_token
+        +string token_type
+        +User user
+    }
+
+    class Listing {
+        +number id
+        +number seller_id
+        +Seller z
+        +string title
+        +string|null description
+        +number price
+        +string|null category
+        +Status status
+        +Image[] images
+        +string created_at
+        +string updated_at
+    }
+
+    class Image {
+        +number id
+        +string file_path
+        +number position
+    }
+
+    class PaginatedListings {
+        +Listing[] listings
+        +number total
+        +number page
+        +number limit
+    }
+
+    class Message {
+        +number id
+        +number listing_id
+        +number sender_id
+        +number receiver_id
+        +Sender sender
+        +string content
+        +boolean is_read
+        +string created_at
+    }
+
+    class Rating {
+        +number id
+        +number listing_id
+        +number seller_id
+        +number rater_id
+        +RaterOut rater
+        +number score
+        +string|null comment
+        +string created_at
+    }
+
+    class SellerRatingsOut {
+        +Rating[] ratings
+        +number|null average_score
+        +number total_count
+        +SellerOut seller
+    }
+
+    class MyRatingOut {
+        +Rating|null rating
+        +boolean can_rate
+    }
+
+    class RegisterRequest {
+        +string email
+        +string password
+        +string name
+    }
+
+    class LoginRequest {
+        +string email
+        +string password
+    }
+
+    class ListingCreateForm {
+        +string title
+        +string description
+        +number price
+        +string category
+        +File[] images
+    }
+
+    class ListingUpdate {
+        +string title
+        +string description
+        +number price
+        +string category
+        +Status status
+    }
+
+    class MessageCreateRequest {
+        +string content
+    }
+
+    class RatingCreate {
+        +number score
+        +string comment
+    }
+
+    class RatingUpdate {
+        +number score
+        +string comment
+    }
+
+    class UpdateProfileRequest {
+        +string name
+    }
+
+    class ChangePasswordRequest {
+        +string current_password
+        +string new_password
+    }
+
+    class DeleteAccountRequest {
+        +string password
+    }
+
+    class ForgotPasswordRequest {
+        +string email
+    }
+
+    class ResetPasswordRequest {
+        +string email
+        +string code
+        +string new_password
+    }
+
+    %% Type compositions
+    TokenResponse --> User
+    Listing --> Image
+    PaginatedListings --> Listing
+    SellerRatingsOut --> Rating
+    MyRatingOut --> Rating
+
+    %% ════════════════════════════════════════
+    %% API CLIENT LAYER
+    %% ════════════════════════════════════════
+
+    class AxiosClient {
+        +baseURL: string
+        +requestInterceptor() JWT injection
+        +responseInterceptor() 401 redirect
+    }
+
+    class AuthAPI {
+        +register(RegisterRequest) Promise
+        +login(LoginRequest) Promise~TokenResponse~
+        +forgotPassword(ForgotPasswordRequest) Promise
+        +resetPassword(ResetPasswordRequest) Promise
+        +getMe() Promise~User~
+        +updateProfile(UpdateProfileRequest) Promise~User~
+        +changePassword(ChangePasswordRequest) Promise
+        +deleteAccount(DeleteAccountRequest) Promise
+    }
+
+    class ListingsAPI {
+        +getListings(GetListingsParams) Promise~PaginatedListings~
+        +getListing(id) Promise~Listing~
+        +createListing(FormData) Promise~Listing~
+        +updateListing(id, data) Promise~Listing~
+        +deleteListing(id) Promise
+    }
+
+    class MessagesAPI {
+        +sendMessage(listingId, MessageCreateRequest) Promise~Message~
+        +getMessages(listingId) Promise
+        +getAllThreads() Promise
+        +markMessagesRead(listingId) Promise
+    }
+
+    class RatingsAPI {
+        +getSellerRatings(sellerId) Promise~SellerRatingsOut~
+        +getMyRating(listingId) Promise~MyRatingOut~
+        +createRating(listingId, RatingCreate) Promise~Rating~
+        +updateRating(listingId, RatingUpdate) Promise~Rating~
+        +deleteRating(listingId) Promise
+    }
+
+    AuthAPI ..> AxiosClient : uses
+    ListingsAPI ..> AxiosClient : uses
+    MessagesAPI ..> AxiosClient : uses
+    RatingsAPI ..> AxiosClient : uses
+
+    %% ════════════════════════════════════════
+    %% CONTEXT & HOOKS
+    %% ════════════════════════════════════════
+
+    class AuthContextType {
+        +User|null user
+        +string|null token
+        +boolean isAuthenticated
+        +boolean loading
+        +login(token, user) void
+        +logout() void
+    }
+
+    class AuthProvider {
+        -state: user, token, loading
+        +login(token, user) void
+        +logout() void
+        +render() AuthContext.Provider
+    }
+
+    class useAuth {
+        +returns: AuthContextType
+    }
+
+    AuthProvider ..|> AuthContextType : provides
+    useAuth ..> AuthContextType : consumes
+
+    %% ════════════════════════════════════════
+    %% SHARED COMPONENTS
+    %% ════════════════════════════════════════
+
+    class Navbar {
+        -state: mobileOpen
+        -handleLogout() void
+        -isActive(path) boolean
+        -closeMobile() void
+        +render() nav
+    }
+
+    class Layout {
+        +props: children
+        +render() Navbar + content + Footer
+    }
+
+    class ProtectedRoute {
+        +props: children
+        +render() children | Navigate /login
+    }
+
+    class ListingCard {
+        +props: listing, onClick
+        +render() card with image, title, price
+    }
+
+    class ImageUpload {
+        +props: images, onChange
+        -state: previewUrls
+        -handleFileSelect() void
+        -removeImage(index) void
+        +render() upload area + previews
+    }
+
+    class SearchBar {
+        +props: onSearch
+        -state: search, category, minPrice, maxPrice, sort, dateListed
+        -handleSearch() void
+        -handleReset() void
+        +render() filter form
+    }
+
+    class StarRating {
+        +props: rating, max, onSelect, size
+        -state: hovered
+        +render() interactive stars
+    }
+
+    class MessageThread {
+        +props: listingId, sellerId, currentUserId
+        -state: messages, newMessage, loading
+        -handleSend(e) void
+        +render() message list + input
+    }
+
+    %% Component dependencies
+    Navbar ..> useAuth : auth state
+    ProtectedRoute ..> useAuth : auth guard
+    Layout --> Navbar : contains
+    ListingCard ..> Listing : displays
+    MessageThread ..> MessagesAPI : fetches/sends
+
+    %% ════════════════════════════════════════
+    %% PAGE COMPONENTS
+    %% ════════════════════════════════════════
+
+    class LoginPage {
+        -state: email, password, error, loading
+        -handleSubmit() void
+    }
+
+    class RegisterPage {
+        -state: name, email, password, confirmPassword, error, loading
+        -handleSubmit() void
+    }
+
+    class ForgotPasswordPage {
+        -state: email, loading, error, sent
+        -handleSubmit() void
+    }
+
+    class ResetPasswordPage {
+        -state: digits, newPassword, confirmPassword, error, success
+        -handleChange(i, val) void
+        -handleSubmit() void
+    }
+
+    class BrowsePage {
+        -state: listings, total, page, loading, filters
+        -handleSearch(params) void
+        -handleCategoryChange(cat) void
+    }
+
+    class CreateListingPage {
+        -state: title, description, price, category, images, error
+        -handleSubmit() void
+    }
+
+    class ListingDetailPage {
+        -state: listing, imgIdx, lightboxOpen, myRating, sellerRatings
+        -handleSubmitRating() void
+        -handleUpdateRating() void
+        -handleDeleteRating() void
+    }
+
+    class EditListingPage {
+        -state: title, description, price, category, status, existingImages, newImages
+        -toggleDeleteImage(id) void
+        -handleSubmit() void
+    }
+
+    class MyListingsPage {
+        -state: listings, loading
+        -handleDelete(id) void
+    }
+
+    class MessagesPage {
+        -state: threads, activeListing, loadingThreads
+        -handleBack() void
+        -handleThreadClick(id) void
+    }
+
+    class AccountPage {
+        -state: name, passwords, deletePassword, errors
+        -handleNameUpdate() void
+        -handlePasswordChange() void
+        -handleDeleteAccount() void
+    }
+
+    class SellerProfilePage {
+        -state: listings, sellerRatings, loading
+    }
+
+    class MapsPage {
+        +meetupLocations: static data
+    }
+
+    %% Page → API dependencies
+    LoginPage ..> AuthAPI : login
+    RegisterPage ..> AuthAPI : register
+    ForgotPasswordPage ..> AuthAPI : forgotPassword
+    ResetPasswordPage ..> AuthAPI : resetPassword
+    BrowsePage ..> ListingsAPI : getListings
+    CreateListingPage ..> ListingsAPI : createListing
+    ListingDetailPage ..> ListingsAPI : getListing
+    ListingDetailPage ..> RatingsAPI : ratings CRUD
+    EditListingPage ..> ListingsAPI : "getListing, updateListing"
+    MyListingsPage ..> ListingsAPI : "getListings, deleteListing"
+    MessagesPage ..> MessagesAPI : getAllThreads
+    MessagesPage ..> ListingsAPI : getListing
+    AccountPage ..> AuthAPI : "updateProfile, changePassword, deleteAccount"
+    SellerProfilePage ..> ListingsAPI : getListings
+    SellerProfilePage ..> RatingsAPI : getSellerRatings
+
+    %% Page → Component dependencies
+    BrowsePage --> SearchBar : contains
+    BrowsePage --> ListingCard : renders list
+    CreateListingPage --> ImageUpload : contains
+    EditListingPage --> ImageUpload : contains
+    ListingDetailPage --> MessageThread : contains
+    ListingDetailPage --> StarRating : contains
+    MessagesPage --> MessageThread : contains
+    SellerProfilePage --> StarRating : contains
+
+    %% Page → Context dependencies
+    LoginPage ..> useAuth : login
+    BrowsePage ..> useAuth : user info
+    MyListingsPage ..> AuthProvider : user context
+    AccountPage ..> AuthProvider : user context
+    MessagesPage ..> useAuth : user info
+
+    %% ════════════════════════════════════════
+    %% UTILITIES
+    %% ════════════════════════════════════════
+
+    class Validators {
+        +isYorkUEmail(email) boolean
+        +isValidPassword(password) ValidationResult
+        +isValidPrice(price) boolean
+        +formatPrice(price) string
+        +formatDate(isoString) string
+    }
+
+    LoginPage ..> Validators : isYorkUEmail
+    RegisterPage ..> Validators : "isYorkUEmail, isValidPassword"
+    CreateListingPage ..> Validators : isValidPrice
+    ListingCard ..> Validators : "formatPrice, formatDate"
+    ForgotPasswordPage ..> Validators : isYorkUEmail
+    ResetPasswordPage ..> Validators : isValidPassword
+
+    %% ════════════════════════════════════════
+    %% APP ROUTING
+    %% ════════════════════════════════════════
+
+    class App {
+        +routes: Route[]
+        +render() BrowserRouter with Routes
+    }
+
+    App --> Layout : "wraps all routes"
+    App --> LoginPage : "route /login"
+    App --> RegisterPage : "route /register"
+    App --> ForgotPasswordPage : "route /forgot-password"
+    App --> ResetPasswordPage : "route /reset-password"
+    App --> BrowsePage : "route /"
+    App --> CreateListingPage : "route /create [protected]"
+    App --> ListingDetailPage : "route /listings/id"
+    App --> EditListingPage : "route /listings/id/edit [protected]"
+    App --> MyListingsPage : "route /my-listings [protected]"
+    App --> MessagesPage : "route /messages [protected]"
+    App --> AccountPage : "route /account [protected]"
+    App --> SellerProfilePage : "route /seller/id"
+    App --> MapsPage : "route /maps"

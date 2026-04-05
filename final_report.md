@@ -4,7 +4,7 @@
 **Course:** EECS 4314 - Advanced Software Engineering (Winter 2026)  
 **Date:** April 5, 2026  
 **Repository:** https://github.com/mai2161/YUTrade  
-**Deployment:** Render (`yutrade-api`)
+**Deployment:** Vercel + Render
 
 **Team Members**
 
@@ -19,31 +19,52 @@
 
 ---
 
+## 1. Demo Access Instructions
+
+- **YouTube walkthrough:** https://youtu.be/mwlNZk4j2iw  
+- **Live frontend (Vercel):** https://yu-trade.vercel.app/  
+- **Live backend API (Render):** https://yutrade-api.onrender.com  
+
+**Evaluation:**
+- Open the frontend URL and register using a YorkU email format (`@my.yorku.ca` or `@yorku.ca`)  
+- Browse listings, apply search/filters, open a listing, and test messaging/rating flows  
+- API endpoints can be checked directly using the backend URL (or `/docs` if enabled in deployment)  
+
+---
+
 ## 2. Requirements Traceability Matrix - Functional Requirements (/6)
 
-All core functional requirements were implemented and validated by automated tests.
+| Req ID | Requirement | Status | Key Evidence | Test Mapping |
+|---|---|---|---|---|
+| FR-01 | Register with YorkU email validation | Met | `schemas/auth.py`, `services/auth_service.py` | `TC-01` to `TC-16` |
+| FR-02 | Login with JWT issuance | Met | `routers/auth.py:login`, `utils/security.py` | `TC-17` to `TC-24` |
+| FR-03 | Forgot/reset password (6-digit code, expiry, one-time use) | Met | `services/auth_service.py` | `TC-25` to `TC-31` |
+| FR-04 | Profile/account management (`/auth/me`, change password, delete account) | Met | `routers/auth.py`, `services/auth_service.py` | `TC-32` to `TC-44` |
+| FR-05 | Create listing with optional image upload | Met | `routers/listings.py:create_listing`, `services/listing_service.py` | `TC-45` to `TC-54` |
+| FR-06 | Browse listings with pagination/search/filter/sort | Met | `services/listing_service.py:get_listings` | `TC-55` to `TC-68` |
+| FR-07 | View single listing | Met | `routers/listings.py:get_listing_by_id` | `TC-69`, `TC-70` |
+| FR-08 | Update/delete listing (owner-only, image add/delete, cascade cleanup) | Met | `services/listing_service.py:update_listing/delete_listing` | `TC-71` to `TC-83` |
+| FR-09 | Buyer-seller messaging and seller reply flow | Met | `routers/messages.py`, `services/message_service.py` | `TC-84` to `TC-91` |
+| FR-10 | Read tracking + thread listing | Met | `routers/messages.py`, `routers/threads.py` | `TC-92` to `TC-105` |
+| FR-11 | Rating workflow (eligibility, create/update/delete, seller averages) | Met | `routers/ratings.py`, `services/rating_service.py` | `TC-106` to `TC-130` |
+| FR-12 | Frontend feature coverage (auth, listings, messages, ratings, protected routes) | Met | `frontend/src/pages/*`, `frontend/src/components/ProtectedRoute.tsx` | Validated via API integration and E2E `TC-131` to `TC-133` |
 
-| Area | Representative Requirements | Status | Evidence |
-|---|---|---|---|
-| Authentication | Register/login, JWT, forgot/reset password, profile update, change password, delete account | Met | `backend/app/routers/auth.py`, `backend/app/services/auth_service.py` |
-| Listings | Create/read/update/delete listings, image upload, browse/search/filter/sort/pagination | Met | `backend/app/routers/listings.py`, `backend/app/services/listing_service.py` |
-| Messaging | Buyer->seller messaging, reply flow, read tracking, thread listing | Met | `backend/app/routers/messages.py`, `backend/app/services/message_service.py` |
-| Ratings | Rate seller, eligibility checks, update/delete rating, seller average rating | Met | `backend/app/routers/ratings.py`, `backend/app/services/rating_service.py` |
-| Frontend | Auth pages, browse/listing pages, protected routes, messaging, ratings UI | Met | `frontend/src/pages/*`, `frontend/src/components/ProtectedRoute.tsx` |
-
-**Traceability:** Functional test cases `TC-01` to `TC-133` map requirements to implementation and outcomes.
+**RTM summary:** Functional requirements are fully implemented and traced to concrete code + tests without listing all 40 line items in full.
 
 ---
 
 ## 3. Requirements Traceability Matrix - Non-Functional Requirements (/4)
 
-| Category | Requirement | Status | Evidence |
-|---|---|---|---|
-| Security | JWT auth, bcrypt hashing, authorization checks, input validation | Met | `backend/app/utils/security.py`, `dependencies.py`, Pydantic schemas |
-| Performance | Paginated listing API, query optimization with eager loading | Met | `routers/listings.py`, `services/listing_service.py` |
-| Scalability/Maintainability | Router -> Service -> Data separation, env-based configuration | Met | `backend/app/routers`, `services`, `config.py` |
-| UI Responsiveness | Responsive layout, mobile navbar/hamburger, design tokens | Met | `frontend/src/styles/global.css`, `variables.css`, `Navbar.tsx` |
-| Accessibility | Focus-visible styles, semantic layout, basic ARIA labels | Partially Met | Limited ARIA usage outside core navigation |
+| NFR ID | Category | Requirement | Status | Evidence |
+|---|---|---|---|---|
+| NFR-01 | Security | JWT-based auth and bcrypt password hashing | Met | `backend/app/utils/security.py` |
+| NFR-02 | Security | Authorization checks for protected/owner-only actions | Met | `dependencies.py`, listing/message/rating service checks |
+| NFR-03 | Validation | Strong server-side input validation with typed schemas | Met | `backend/app/schemas/*.py` |
+| NFR-04 | Performance | Pagination and bounded query limits for listing endpoints | Met | `routers/listings.py` query params (`page`, `limit`) |
+| NFR-05 | Maintainability | Layered architecture (Router -> Service -> Data) | Met | `backend/app/routers`, `backend/app/services`, ORM models |
+| NFR-06 | Configuration | Env-driven settings and deploy-ready config | Met | `config.py`, `.env.example`, `render.yaml` |
+| NFR-07 | UI Responsiveness | Mobile-friendly responsive UI and consistent design tokens | Met | `frontend/src/styles/global.css`, `variables.css`, `Navbar.tsx` |
+| NFR-08 | Accessibility | Focus states/semantic tags/basic ARIA labels | Partially Met | Good baseline, but broader ARIA/test coverage still limited |
 
 ---
 
